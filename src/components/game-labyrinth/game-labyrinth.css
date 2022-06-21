@@ -1,0 +1,180 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  overflow: hidden;
+
+  padding: 10px;
+}
+
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+#extra-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  width: 15%;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0px;
+  margin: 0px;
+  border-radius: 10px;
+
+  border: 1px solid rgb(134, 134, 134);
+  background-color: rgb(86, 86, 86);
+  color: rgb(201, 161, 74);
+
+  font-size: 40px;
+  font-weight: bold;
+
+  height: 100%;
+  width: 100%;
+}
+
+.tile .left {
+  transform: rotate(-90deg);
+}
+
+.left .contents {
+  transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+}
+
+.left .contents:hover {
+  transform: translate(-50%, -50%) rotate(90deg) scale(2);
+}
+
+.tile .right {
+  transform: rotate(90deg);
+}
+
+.right .contents {
+  transform: translate(-50%, -50%) rotate(-90deg) scale(0.5);
+}
+
+.right .contents:hover {
+  transform: translate(-50%, -50%) rotate(-90deg) scale(2);
+}
+
+.tile .down {
+  transform: rotate(180deg);
+}
+
+.down .contents {
+  transform: translate(-50%, -50%) rotate(-180deg) scale(0.5);
+}
+
+.down .contents:hover {
+  transform: translate(-50%, -50%) rotate(-180deg) scale(2);
+}
+
+.tile .up {
+  transform: rotate(0deg);
+}
+
+.up .contents {
+  transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+}
+
+.up .contents:hover {
+  transform: translate(-50%, -50%) rotate(0deg) scale(2);
+}
+
+.tile:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.tile:hover {
+  background-color: rgb(201, 161, 74);
+  color: rgb(86, 86, 86);
+}
+
+.tile.static {
+  background-color: rgb(54, 54, 54);
+  color: rgb(201, 161, 74);
+}
+
+.tile.static:hover {
+  background-color: rgb(201, 116, 74);
+  color: rgb(86, 86, 86);
+}
+
+.tile.dynamic:hover {
+  background-color: rgb(89, 201, 74);
+  color: rgb(86, 86, 86);
+}
+
+.playerIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  background-color: rgb(4, 255, 0);
+}
+
+.contents {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.red {
+  background-color: rgb(255, 0, 0);
+}
+.blue {
+  background-color: rgb(0, 0, 255);
+}
+.green {
+  background-color: rgb(0, 255, 0);
+}
+.yellow {
+  background-color: rgb(255, 255, 0);
+}
+.purple {
+  background-color: rgb(255, 0, 255);
+}
+.orange {
+  background-color: rgb(255, 165, 0);
+}
+.black {
+  background-color: rgb(0, 0, 0);
+}
+.white {
+  background-color: rgb(255, 255, 255);
+}
+
+.game-row {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: stretch;
+
+  width: 100%;
+}
+
+.game-board {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 0 1 auto;
+  align-items: center;
+  width: 75%;
+}

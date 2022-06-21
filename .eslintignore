@@ -1,0 +1,4 @@
+www/*
+.*
+*.spec.ts
+*.e2e.ts
