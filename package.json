@@ -1,35 +1,17 @@
 {
-  "name": "amazinglabyrinth",
   "private": true,
-  "version": "0.0.1",
-  "description": "Stencil App Starter",
   "scripts": {
-    "build": "stencil build",
-    "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "update-rules": "yarn add --dev file:../my-eslint-rules && yarn lint"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@stencil/core": "2.13.0",
-    "@stencil/router": "^1.0.1",
-    "@types/jest": "^27.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
-    "@typescript-eslint/scope-manager": "^5.25.0",
-    "eslint": "^8.16.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-personal-rules": "file:../my-eslint-rules",
-    "jest": "^27.4.5",
-    "jest-cli": "^27.4.5",
-    "my-eslint-rules": "file:../my-eslint-rules",
-    "prettier": "^2.6.2",
-    "puppeteer": "^10.0.0"
+    "@turbo/gen": "^1.9.7",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^2.5.1",
+    "turbo": "^1.9.7"
   },
-  "license": "MIT",
-  "dependencies": {
-    "typescript": "^4.6.4"
-  }
+  "packageManager": "pnpm@7.15.0"
 }
