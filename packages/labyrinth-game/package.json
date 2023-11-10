@@ -1,0 +1,10 @@
+{
+  "name": "labyrinth-game",
+  "version": "1.0.0",
+  "description": "Board game logic for the Labyrinth game",
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "typescript": "5.1.3"
+  }
+}
