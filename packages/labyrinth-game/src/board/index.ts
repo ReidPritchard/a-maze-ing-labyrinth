@@ -1,17 +1,21 @@
 import { GameTile, createRandomTile } from "../tile";
-import { TreasureMap } from "../treasure/interfaces";
+import { TreasureMap } from "../treasure";
 import { Board } from "./interfaces";
 
 export class GameBoard implements Board {
   private readonly board: GameTile[];
-  private readonly treasures: TreasureMap = {};
+  private readonly treasureMap: TreasureMap = new TreasureMap();
 
   readonly rows: number;
   readonly columns: number;
 
-  constructor(rows: number, columns: number) {
+  readonly treasureCount: number;
+
+  constructor(rows: number, columns: number, treasureCount: number) {
     this.rows = rows;
     this.columns = columns;
+    this.treasureCount = treasureCount;
+
     this.board = new Array(rows * columns).fill(null);
     this.fillBoard();
   }
@@ -21,6 +25,43 @@ export class GameBoard implements Board {
       for (let column = 0; column < this.columns; column++) {
         this.setTile(row, column, createRandomTile());
       }
+    }
+  }
+
+  private fillTreasureMap(): void {
+    // Add this.treasureCount treasures to the treasure map
+    // The treasures should be randomly placed on the board
+    // Technically, some tiles always have a treasure,
+    // but we'll ignore that for now
+    // We will make sure that no two treasures are placed on the same tile
+    // or that a treasure is placed in any of the corners of the board
+    // since these are the starting positions for the players
+
+    let treasureCount = 0;
+    while (treasureCount < this.treasureCount) {
+      const row = Math.floor(Math.random() * this.rows);
+      const column = Math.floor(Math.random() * this.columns);
+
+      if (this.treasureMap.hasTreasure({ row, column })) {
+        continue;
+      }
+
+      const startingPositions = [
+        { row: 0, column: 0 },
+        { row: 0, column: this.columns - 1 },
+        { row: this.rows - 1, column: 0 },
+        { row: this.rows - 1, column: this.columns - 1 },
+      ];
+
+      if (
+        startingPositions.some(
+          (position) => position.row === row && position.column === column
+        )
+      ) {
+        continue;
+      }
+
+      this.treasureMap.addTreasure({ row, column });
     }
   }
 
@@ -112,6 +153,7 @@ export class GameBoard implements Board {
   }
 }
 
-export function createBoard(size: number): GameBoard {
-  return new GameBoard(size, size);
+export function createBoard(size: number, treasureCount?: number): GameBoard {
+  treasureCount = treasureCount || Math.floor(size * size * 0.1);
+  return new GameBoard(size, size, treasureCount);
 }
