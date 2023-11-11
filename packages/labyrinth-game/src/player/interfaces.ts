@@ -44,7 +44,7 @@ export interface Player {
   /**
    * An array of the player's collected treasures
    */
-  treasures: Treasure[];
+  treasuresFound: Treasure[];
 }
 
 /**

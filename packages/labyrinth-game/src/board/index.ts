@@ -1,8 +1,11 @@
 import { GameTile, createRandomTile } from "../tile";
+import { TreasureMap } from "../treasure/interfaces";
 import { Board } from "./interfaces";
 
 export class GameBoard implements Board {
   private readonly board: GameTile[];
+  private readonly treasures: TreasureMap = {};
+
   readonly rows: number;
   readonly columns: number;
 
