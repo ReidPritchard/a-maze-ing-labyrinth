@@ -36,20 +36,16 @@ export class GameBoard implements Board {
   inspect(): string {
     let output = "";
     for (let row = 0; row < this.rows; row++) {
-      // get all tiles in the row
       const tiles = Array.from({ length: this.columns }, (_, col) =>
-        this.getTile(row, col),
+        this.getTile(row, col)
       );
 
-      // get each tile's string representation (an array of 3 lines)
       const tileLines = tiles.map((tile) => tile.toString().split("\n"));
 
-      // join corresponding lines from each tile with '|', and join all lines with '\n'
-      const rowStrings = Array.from({ length: 3 }, (_, i) =>
-        tileLines.map((tile) => tile[i]).join(" "),
+      const rowStrings = tileLines[0].map((_, i) =>
+        tileLines.map((tile) => tile[i]).join(" ")
       );
 
-      // add the row string to the output, with an additional '\n' for spacing
       output += rowStrings.join("\n") + "\n\n";
     }
 
@@ -60,13 +56,17 @@ export class GameBoard implements Board {
     row: number | undefined,
     column: number | undefined,
     direction: "up" | "down" | "left" | "right",
-    tile: GameTile,
+    tile: GameTile
   ): GameTile {
+    if (row === undefined || column === undefined) {
+      throw new Error("Row or column is not defined");
+    }
+
     const shiftDirections = {
-      up: () => this.shiftColumnUp(column as number, tile),
-      down: () => this.shiftColumnDown(column as number, tile),
-      left: () => this.shiftRowLeft(row as number, tile),
-      right: () => this.shiftRowRight(row as number, tile),
+      up: () => this.shiftColumnUp(column, tile),
+      down: () => this.shiftColumnDown(column, tile),
+      left: () => this.shiftRowLeft(row, tile),
+      right: () => this.shiftRowRight(row, tile),
     };
 
     return shiftDirections[direction]();

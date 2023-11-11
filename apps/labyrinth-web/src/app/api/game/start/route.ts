@@ -11,8 +11,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest): Promise<NextResponse> {
   console.log("POST /api/game/start");
 
-  // console.log(request);
-
   const { numberOfPlayers, difficulty } = await request.json();
 
   const gameBoard = createBoard(10);

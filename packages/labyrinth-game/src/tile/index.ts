@@ -13,23 +13,19 @@ export class GameTile implements Tile {
     down: boolean,
     left: boolean,
     right: boolean,
-    fixed?: boolean,
-    rotation?: number,
+    fixed: boolean = false,
+    rotation?: number
   ) {
     this.up = up;
     this.down = down;
     this.left = left;
     this.right = right;
-    if (fixed !== undefined) {
-      this.fixed = fixed;
-    }
+    this.fixed = fixed;
     if (rotation !== undefined) {
-      this.rotation = rotation;
-
-      // Rotate the tile to the correct rotation
       for (let i = 0; i < rotation; i++) {
         this.rotate();
       }
+      this.rotation = rotation;
     }
   }
 
@@ -59,9 +55,9 @@ export class GameTile implements Tile {
     }
   }
 
-  toString(): string {
+  generateStringRepresentation(): string {
     const tile = Array.from({ length: 3 }, () =>
-      Array.from({ length: 3 }, () => " "),
+      Array.from({ length: 3 }, () => " ")
     );
 
     const tileMap = {
@@ -81,37 +77,22 @@ export class GameTile implements Tile {
 
     return tile.map((row) => row.join("")).join("\n");
   }
+
+  toString(): string {
+    return this.generateStringRepresentation();
+  }
 }
 
 export function createTile(
-  up: boolean,
-  down: boolean,
-  left: boolean,
-  right: boolean,
-  fixed?: boolean,
-  rotation?: number,
+  type: keyof typeof tileMap,
+  fixed: boolean = false,
+  rotation: number = 0
 ): GameTile {
+  const tile = tileMap[type];
+  const { up, down, left, right } = tile;
+
   return new GameTile(up, down, left, right, fixed, rotation);
 }
-
-// const tileMap = {
-//   line: {
-//     column: { up: true, down: true, left: false, right: false },
-//     row: { up: false, down: false, left: true, right: true },
-//   },
-//   corner: {
-//     upLeft: { up: true, down: false, left: true, right: false },
-//     upRight: { up: true, down: false, left: false, right: true },
-//     downLeft: { up: false, down: true, left: true, right: false },
-//     downRight: { up: false, down: true, left: false, right: true },
-//   },
-//   t: {
-//     up: { up: true, down: false, left: true, right: true },
-//     down: { up: false, down: true, left: true, right: true },
-//     left: { up: true, down: true, left: true, right: false },
-//     right: { up: true, down: true, left: false, right: true },
-//   },
-// };
 
 const tileMap = {
   line: { up: true, down: true, left: false, right: false },
@@ -122,14 +103,9 @@ const tileMap = {
 export function createTileFromType(
   type: keyof typeof tileMap,
   fixed: boolean = false,
-  rotation: number = 0,
+  rotation: number = 0
 ): GameTile {
-  const tile = tileMap[type];
-  const { up, down, left, right } = tile;
-
-  const newTile = createTile(up, down, left, right, fixed, rotation);
-
-  return newTile;
+  return createTile(type, fixed, rotation);
 }
 
 export function createRandomFixedTile(): GameTile {
@@ -143,13 +119,11 @@ export function createRandomFixedTile(): GameTile {
   return tile;
 }
 
-export function createRandomTile(): GameTile {
+export function createRandomTile(fixed: boolean = false): GameTile {
   const tileType = Object.keys(tileMap)[
     Math.floor(Math.random() * Object.keys(tileMap).length)
   ] as keyof typeof tileMap;
   const tileRotation = Math.floor(Math.random() * 4);
 
-  const tile = createTileFromType(tileType, false, tileRotation);
-
-  return tile;
+  return createTile(tileType, fixed, tileRotation);
 }

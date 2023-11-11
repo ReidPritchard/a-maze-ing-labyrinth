@@ -63,3 +63,17 @@ export interface Board {
     tile: Tile
   ): Tile;
 }
+
+/**
+ * Interface for a coordinate on the board
+ */
+export interface Coordinate {
+  /**
+   * The row of the coordinate
+   */
+  row: number;
+  /**
+   * The column of the coordinate
+   */
+  column: number;
+}
