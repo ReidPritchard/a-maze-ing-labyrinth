@@ -8,7 +8,7 @@ import { GameTile, createRandomTile } from "labyrinth-game";
 import BoardExtraTile from "./components/board-extra-tile/board-extra-tile";
 
 export default function Home() {
-  const [board, setBoard] = useState(createBoard(10));
+  const [board, setBoard] = useState(createBoard(9));
   const [extraTile, setExtraTile] = useState(createRandomTile());
 
   const onTileClick = (tile: GameTile): void => {

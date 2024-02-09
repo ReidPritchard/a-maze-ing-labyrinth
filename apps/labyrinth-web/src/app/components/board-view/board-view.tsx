@@ -43,6 +43,8 @@ export default function BoardView(props: BoardViewProps) {
             >
               <BoardTile
                 boardTile={board.getTile(rowIndex, colIndex)}
+                treasure={board.getTreasure(rowIndex, colIndex)}
+                players={board.getPlayers(rowIndex, colIndex)}
                 onClick={() => onCellClick(rowIndex, colIndex)}
               />
             </div>

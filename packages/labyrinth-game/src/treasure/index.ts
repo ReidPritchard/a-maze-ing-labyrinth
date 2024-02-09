@@ -1,5 +1,4 @@
 import { Coordinate } from "../board/interfaces";
-// import { Treasure } from "./interfaces";
 export * from "./interfaces";
 
 export class TreasureMap {

@@ -1,29 +1,46 @@
+import { Player, PlayerMap } from "../player";
 import { GameTile, createRandomTile } from "../tile";
-import { TreasureMap } from "../treasure";
-import { Board } from "./interfaces";
+import { Treasure, TreasureMap } from "../treasure";
+import { Board, Coordinate } from "./interfaces";
 
 export class GameBoard implements Board {
+  private readonly startingPositions: Coordinate[] = [];
+
   private readonly board: GameTile[];
   private readonly treasureMap: TreasureMap = new TreasureMap();
+  private readonly playerMap: PlayerMap = new PlayerMap();
 
   readonly rows: number;
   readonly columns: number;
 
   readonly treasureCount: number;
+  readonly playerCount: number;
 
-  constructor(rows: number, columns: number, treasureCount: number) {
+  constructor(
+    rows: number,
+    columns: number,
+    treasureCount: number,
+    playerCount: number
+  ) {
     this.rows = rows;
     this.columns = columns;
     this.treasureCount = treasureCount;
+    this.playerCount = playerCount;
+
+    this.startingPositions = defaultStartingPositions(rows, columns);
 
     this.board = new Array(rows * columns).fill(null);
     this.fillBoard();
+    this.fillTreasureMap();
+    this.fillPlayerMap();
   }
 
   private fillBoard(): void {
     for (let row = 0; row < this.rows; row++) {
       for (let column = 0; column < this.columns; column++) {
-        this.setTile(row, column, createRandomTile());
+        // Every other column and row should be fixed (ex. [0,0], [0,2], [2, 0], [2, 2], ...)
+        const isFixed = row % 2 === 0 && column % 2 === 0;
+        this.setTile(row, column, createRandomTile(isFixed));
       }
     }
   }
@@ -37,31 +54,28 @@ export class GameBoard implements Board {
     // or that a treasure is placed in any of the corners of the board
     // since these are the starting positions for the players
 
-    let treasureCount = 0;
-    while (treasureCount < this.treasureCount) {
+    for (let treasureCount = 0; treasureCount < this.treasureCount; ) {
       const row = Math.floor(Math.random() * this.rows);
       const column = Math.floor(Math.random() * this.columns);
 
-      if (this.treasureMap.hasTreasure({ row, column })) {
-        continue;
-      }
-
-      const startingPositions = [
-        { row: 0, column: 0 },
-        { row: 0, column: this.columns - 1 },
-        { row: this.rows - 1, column: 0 },
-        { row: this.rows - 1, column: this.columns - 1 },
-      ];
-
       if (
-        startingPositions.some(
+        !this.treasureMap.hasTreasure({ row, column }) &&
+        !this.startingPositions.some(
           (position) => position.row === row && position.column === column
         )
       ) {
-        continue;
+        const newTreasure = new Treasure(`Treasure ${treasureCount}`, false);
+        this.treasureMap.addTreasure(newTreasure, { row, column });
+        treasureCount++;
       }
+    }
+  }
 
-      this.treasureMap.addTreasure({ row, column });
+  private fillPlayerMap(): void {
+    for (let i = 0; i < this.playerCount; i++) {
+      const position = this.startingPositions[i];
+      const newPlayer = new Player(`Player ${i}`, "blue", position);
+      this.playerMap.addPlayer(newPlayer);
     }
   }
 
@@ -75,6 +89,14 @@ export class GameBoard implements Board {
 
   setTile(row: number, column: number, tile: GameTile): void {
     this.board[this.index(row, column)] = tile;
+  }
+
+  getTreasure(row: number, column: number): Treasure | undefined {
+    return this.treasureMap.getTreasuresAtCoordinate({ row, column })[0];
+  }
+
+  getPlayers(row: number, column: number): Player[] {
+    return this.playerMap.getPlayersAtPosition({ row, column });
   }
 
   inspect(): string {
@@ -153,7 +175,25 @@ export class GameBoard implements Board {
   }
 }
 
-export function createBoard(size: number, treasureCount?: number): GameBoard {
-  treasureCount = treasureCount || Math.floor(size * size * 0.1);
-  return new GameBoard(size, size, treasureCount);
+/**
+ * Function to determine the default starting positions for the players
+ * These are the corners of the board and therefore
+ * their coordinates are defined by the board's dimensions.
+ */
+function defaultStartingPositions(rows: number, columns: number): Coordinate[] {
+  return [
+    { row: 0, column: 0 },
+    { row: 0, column: columns - 1 },
+    { row: rows - 1, column: 0 },
+    { row: rows - 1, column: columns - 1 },
+  ];
+}
+
+export function createBoard(
+  size: number,
+  treasureCount?: number,
+  playerCount?: number
+): GameBoard {
+  treasureCount = treasureCount || Math.floor(size * size * 0.5);
+  return new GameBoard(size, size, treasureCount, playerCount || 2);
 }

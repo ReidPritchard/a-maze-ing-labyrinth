@@ -1,4 +1,13 @@
 /**
+ * Map of tile types to their properties
+ */
+export const tileMap = {
+  line: { up: true, down: true, left: false, right: false },
+  corner: { up: true, down: false, left: true, right: false },
+  t: { up: true, down: false, left: true, right: true },
+} as const;
+
+/**
  * Interface for a single tile
  * @interface Tile
  */

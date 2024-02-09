@@ -1,4 +1,4 @@
-import { Tile } from "./interfaces";
+import { Tile, tileMap } from "./interfaces";
 
 export class GameTile implements Tile {
   up: boolean;
@@ -93,12 +93,6 @@ export function createTile(
 
   return new GameTile(up, down, left, right, fixed, rotation);
 }
-
-const tileMap = {
-  line: { up: true, down: true, left: false, right: false },
-  corner: { up: true, down: false, left: true, right: false },
-  t: { up: true, down: false, left: true, right: true },
-};
 
 export function createTileFromType(
   type: keyof typeof tileMap,

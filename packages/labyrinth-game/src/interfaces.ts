@@ -1,20 +1,10 @@
+import { Player } from "./player";
 import { GameTile } from "./tile";
-
-export interface Player {
-  position: [number, number]; // Position as an array [x, y]
-  color: string;
-  treasures: TreasureCard[];
-}
-
-export interface TreasureCard {
-  id: number;
-  name: string;
-  imageUrl: string;
-}
+import { Treasure } from "./treasure";
 
 export interface GameStatus {
   turn: number;
-  remainingTreasures: TreasureCard[];
+  remainingTreasures: Treasure[];
   winner?: number; // Optional, will hold the player ID if there is a winner
 }
 
