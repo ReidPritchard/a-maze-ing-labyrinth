@@ -1,13 +1,15 @@
+/* eslint-env node */
 module.exports = {
   extends: [
     "eslint:recommended",
-    "eslint-config-prettier",
-    "plugin:typescript/recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "prettier",
   ],
-  rules: {},
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  root: true,
   parserOptions: {
-    babelOptions: {
-      presets: [require.resolve("next/babel")],
-    },
+    project: true,
+    tsconfigRootDir: __dirname,
   },
 };

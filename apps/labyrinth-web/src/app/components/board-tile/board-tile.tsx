@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { BoardTileProps, treasureIcons, playerIcons } from "./interfaces";
 
-export default function BoardTile(props: BoardTileProps) {
+export default function BoardTile(props: BoardTileProps): JSX.Element {
   const { boardTile, treasure, players, onClick } = props;
 
   const [cells, setCells] = useState<JSX.Element[]>([]);

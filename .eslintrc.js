@@ -1,10 +1,7 @@
+/* eslint-env node */
 module.exports = {
   root: true,
-  // This tells ESLint to load the config from the package `eslint-config-custom`
-  extends: ["custom"],
-  settings: {
-    next: {
-      rootDir: ["apps/*/"],
-    },
-  },
+  extends: ["@shared/eslint-config/index.js"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
 };
