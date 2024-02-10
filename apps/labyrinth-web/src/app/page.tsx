@@ -11,19 +11,23 @@ export default function Home() {
   const [board, setBoard] = useState(createBoard(9));
   const [extraTile, setExtraTile] = useState(createRandomTile());
 
-  const onTileClick = (tile: GameTile): void => {
+  const onExtraTileClick = (tile: GameTile): void => {
     console.log("Clicked on extra tile", tile);
     setExtraTile(createRandomTile()); // Generate new extra tile upon click
+  };
+
+  const onCellClick = (rowIndex: number, colIndex: number): void => {
+    console.log("Clicked on cell", rowIndex, colIndex);
   };
 
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Labyrinth</h1>
       <div className={styles.description}>
-        <BoardExtraTile tile={extraTile} onTileClick={onTileClick} />
+        <BoardExtraTile tile={extraTile} onTileClick={onExtraTileClick} />
       </div>
       <div className={styles.description}>
-        <BoardView board={board} />
+        <BoardView board={board} onCellClick={onCellClick} />
       </div>
     </main>
   );

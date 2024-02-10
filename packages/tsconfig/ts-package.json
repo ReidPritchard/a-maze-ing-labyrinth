@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Typescript Package",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "allowJs": false,
+    "noEmit": true
+  }
+}

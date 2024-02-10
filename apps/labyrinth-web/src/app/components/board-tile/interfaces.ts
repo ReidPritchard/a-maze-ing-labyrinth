@@ -4,7 +4,7 @@ export type BoardTileProps = {
   boardTile: GameTile;
   onClick: (boardTile: GameTile) => void;
   treasure?: Treasure;
-  players: Player[];
+  players?: Player[];
 };
 
 // Prevent formatting each emoji to a single line
@@ -20,13 +20,24 @@ export const treasureIcons = [
     "🥛", "☕", "🍵", "🍶", "🍾", "🍷", "🍸", "🍹", "🍺", "🍻", "🥂", "🥃"
 ] as const;
 
+export const iconColors = {
+  RED: "red",
+  ORANGE: "orange",
+  YELLOW: "yellow",
+  GREEN: "green",
+  BLUE: "blue",
+  PURPLE: "purple",
+  BLACK: "black",
+  WHITE: "white",
+};
+
 export const playerIcons = {
-  red: "❤️",
-  orange: "🧡",
-  yellow: "💛",
-  green: "💚",
-  blue: "💙",
-  purple: "💜",
-  black: "🖤",
-  white: "🤍",
+  [iconColors.RED]: "❤️",
+  [iconColors.ORANGE]: "🧡",
+  [iconColors.YELLOW]: "💛",
+  [iconColors.GREEN]: "💚",
+  [iconColors.BLUE]: "💙",
+  [iconColors.PURPLE]: "💜",
+  [iconColors.BLACK]: "🖤",
+  [iconColors.WHITE]: "🤍",
 };

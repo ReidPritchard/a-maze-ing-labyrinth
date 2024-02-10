@@ -9,14 +9,14 @@ export enum LogLevel {
 }
 
 /**
- * Enum for console methods corresponding to log levels
+ * Mapping of log levels to console methods
  */
-export enum LogMethod {
-  log = 1,
-  info,
-  warn,
-  error,
-}
+const LogMethod = {
+  [LogLevel.DEBUG]: console.debug,
+  [LogLevel.INFO]: console.info,
+  [LogLevel.WARN]: console.warn,
+  [LogLevel.ERROR]: console.error,
+};
 
 /**
  * Log Level CLI Colors
@@ -62,7 +62,7 @@ export class Logger {
   log(message: string, level: LogLevel): void {
     if (this.enabled && level >= this.level) {
       if (level in LogMethod) {
-        console[LogMethod[level]](this.formatMessage(message, level));
+        LogMethod[level](this.formatMessage(message, level));
       } else {
         throw new Error(`Invalid log level: ${level}`);
       }
@@ -87,4 +87,9 @@ export function createLogger(enabled: boolean, level: LogLevel): Logger {
 /**
  * The logger instance with logging enabled and set to DEBUG level
  */
-export const logger = createLogger(true, LogLevel.DEBUG);
+const logger = createLogger(true, LogLevel.DEBUG);
+
+/**
+ * Export the log method from the logger instance
+ */
+export const logMessage = logger.log.bind(logger);

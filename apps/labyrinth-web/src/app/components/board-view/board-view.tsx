@@ -1,5 +1,6 @@
 "use client";
 
+import { LogLevel, logMessage } from "@shared/utils";
 import BoardTile from "../board-tile/board-tile";
 import { BoardViewProps } from "./interfaces";
 
@@ -13,7 +14,8 @@ export default function BoardView(props: BoardViewProps) {
   const { rows, columns } = board;
 
   const onCellClick = (rowIndex: number, colIndex: number) => {
-    console.log(`Clicked on cell ${rowIndex}, ${colIndex}`);
+    logMessage(`Clicked on cell ${rowIndex}, ${colIndex}`, LogLevel.INFO);
+    props.onCellClick?.(rowIndex, colIndex);
   };
 
   const gameBoardStyle = {

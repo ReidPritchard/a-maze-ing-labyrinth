@@ -64,7 +64,9 @@ export default function BoardTile(props: BoardTileProps) {
         const playerIcon = name?.match(/[\u{1F600}-\u{1F64F}]/gu)
           ? name
           : playerIcons[color] ||
-            playerIcons[id ?? Math.floor(Math.random() * playerIcons.length)];
+            playerIcons[
+              id ?? Math.floor(Math.random() * Number(playerIcons.length))
+            ];
 
         // Offset the position of the player icons so they don't overlap
         const offset = index * 10;
@@ -74,10 +76,12 @@ export default function BoardTile(props: BoardTileProps) {
           zIndex: index,
         };
 
-        return playerIcon;
-        // <div key={`player-${id}`} style={style}>
-        //   {playerIcon}
-        // </div>
+        // return playerIcon;
+        return (
+          <div key={`player-${id}`} style={style}>
+            {playerIcon}
+          </div>
+        );
       }) || [];
 
     const newCells = Array.from({ length: 9 }, (_, i) => {
@@ -102,7 +106,7 @@ export default function BoardTile(props: BoardTileProps) {
       }
 
       const shouldShowTreasure = treasure && i === 4 && found === false;
-      const shouldShowPlayers = players?.length > 0 && i === 4;
+      const shouldShowPlayers = (players?.length ?? 0) > 0 && i === 4;
 
       return (
         <div

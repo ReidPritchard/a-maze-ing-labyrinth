@@ -4,8 +4,13 @@
   "description": "Board game logic for the Labyrinth game",
   "main": "index.ts",
   "types": "index.ts",
-  "dependencies": {
-    "shared-utils": "*",
-    "typescript": "5.1.3"
+  "exports": {
+    ".": "./index.ts"
+  },
+  "devDependencies": {
+    "typescript": "5.1.3",
+    "@shared/utils": "*",
+    "@shared/eslint-config": "*",
+    "@shared/tsconfig": "*"
   }
 }

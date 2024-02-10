@@ -73,7 +73,18 @@ class FixedBoard extends GameBoard {
     const rows = boardString.length;
     const columns = boardString[0].split(" ").length;
 
-    super(rows, columns, 0);
+    const treasureCount = boardString.reduce(
+      (count, row) =>
+        count +
+        row.split(" ").reduce((rowCount, tile) => {
+          const { treasure } = deserializeTile(tile);
+          return rowCount + (treasure ? 1 : 0);
+        }, 0),
+      0
+    );
+    const playerCount = 4;
+
+    super(rows, columns, treasureCount, playerCount);
   }
 
   /**
@@ -87,13 +98,23 @@ class FixedBoard extends GameBoard {
           deserializeTile(tile);
 
         if (treasure) {
-          this.treasureMap.addTreasure({
-            row: rowIndex,
-            column: columnIndex,
-          });
+          this.addTreasureToMap(
+            rowIndex,
+            columnIndex,
+            new Treasure("Treasure", false)
+          );
         }
 
-        const newTile = createTile(type, fixed, rotation);
+        if (startingPosition) {
+          // TODO: Add a method to add starting positions to the player map
+          // for now it will default to the 4 corners
+        }
+
+        const newTile = createTile(
+          type as "corner" | "line" | "t",
+          fixed,
+          rotation
+        );
         this.setTile(rowIndex, columnIndex, newTile);
       });
     });

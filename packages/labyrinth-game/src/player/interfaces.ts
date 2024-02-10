@@ -1,4 +1,5 @@
 import { Coordinate } from "../board/interfaces";
+import { Treasure } from "../treasure";
 
 /**
  * Interface for a single player
@@ -48,6 +49,38 @@ export interface Player {
 }
 
 /**
+ * The supported player piece colors
+ *
+ * TODO: Expand this to include more colors
+ * and possibly allow for custom colors
+ * but for now, since max players is 4, we
+ * will limit the colors to 8
+ */
+export const playerPieceColors = {
+  red: "red",
+  blue: "blue",
+  green: "green",
+  yellow: "yellow",
+  purple: "purple",
+  orange: "orange",
+  pink: "pink",
+  brown: "brown",
+} as const;
+
+/**
+ * The supported player piece shapes
+ *
+ * TODO: Similar to the colors, we can expand later
+ */
+export const playerPieceShapes = {
+  heart: "heart",
+  star: "star",
+  circle: "circle",
+  square: "square",
+  triangle: "triangle",
+} as const;
+
+/**
  * The piece that represents the player on the board
  * This will include any identifying information in order
  * to distinguish between players on the board. However,
@@ -60,10 +93,10 @@ export interface PlayerPiece {
   /**
    * The color of the player's piece
    */
-  color: string;
+  color: keyof typeof playerPieceColors;
 
   /**
    * The shape of the player's piece
    */
-  shape: string;
+  shape: keyof typeof playerPieceShapes;
 }

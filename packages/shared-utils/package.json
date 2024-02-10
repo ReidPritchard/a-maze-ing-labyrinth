@@ -1,17 +1,16 @@
 {
-  "name": "shared-utils",
-  "version": "0.0.0",
+  "name": "@shared/utils",
+  "description": "Shared utilities for the project",
+  "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
-    "test": "echo 'Add test script here'",
-    "lint": "echo 'Add lint script here'"
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
-    "labyrinth-game": "*",
-    "tsconfig": "*"
+    "@shared/eslint-config": "*",
+    "@shared/tsconfig": "*"
   },
   "dependencies": {
     "typescript": "5.1.3"

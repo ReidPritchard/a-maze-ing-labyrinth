@@ -74,8 +74,10 @@ export class GameBoard implements Board {
   private fillPlayerMap(): void {
     for (let i = 0; i < this.playerCount; i++) {
       const position = this.startingPositions[i];
-      const newPlayer = new Player(`Player ${i}`, "blue", position);
-      this.playerMap.addPlayer(newPlayer);
+      if (position) {
+        const newPlayer = new Player(`Player ${i}`, "blue", position);
+        this.playerMap.addPlayer(newPlayer);
+      }
     }
   }
 
@@ -84,7 +86,13 @@ export class GameBoard implements Board {
   }
 
   getTile(row: number, column: number): GameTile {
-    return this.board[this.index(row, column)];
+    const tile = this.board[this.index(row, column)];
+
+    if (!tile) {
+      throw new Error(`No tile found at ${row}, ${column}`);
+    }
+
+    return tile;
   }
 
   setTile(row: number, column: number, tile: GameTile): void {
@@ -93,6 +101,10 @@ export class GameBoard implements Board {
 
   getTreasure(row: number, column: number): Treasure | undefined {
     return this.treasureMap.getTreasuresAtCoordinate({ row, column })[0];
+  }
+
+  addTreasureToMap(row: number, column: number, treasure: Treasure): void {
+    this.treasureMap.addTreasure(treasure, { row, column });
   }
 
   getPlayers(row: number, column: number): Player[] {
@@ -108,11 +120,11 @@ export class GameBoard implements Board {
 
       const tileLines = tiles.map((tile) => tile.toString().split("\n"));
 
-      const rowStrings = tileLines[0].map((_, i) =>
+      const rowStrings = tileLines[0]?.map((_, i) =>
         tileLines.map((tile) => tile[i]).join(" ")
       );
 
-      output += rowStrings.join("\n") + "\n\n";
+      output += rowStrings?.join("\n") + "\n\n";
     }
 
     return output;

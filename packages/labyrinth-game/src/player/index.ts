@@ -1,5 +1,8 @@
+import { logMessage, LogLevel } from "@shared/utils";
+
 import { Coordinate } from "../board/interfaces";
 import { Treasure } from "../treasure";
+import { PlayerPiece, playerPieceColors } from "./interfaces";
 
 /**
  * Represents a player in the game
@@ -8,7 +11,9 @@ import { Treasure } from "../treasure";
  */
 export class Player {
   static playerCount = 0;
-  playerNumber = Player.playerCount++;
+  id = Player.playerCount++;
+
+  private _playerPiece: PlayerPiece;
 
   private _treasuresFound: number = 0;
   private _previousTreasures: Treasure[] = [];
@@ -17,9 +22,16 @@ export class Player {
 
   constructor(
     readonly name: string,
-    readonly color: string,
+    readonly color: keyof typeof playerPieceColors,
     private _position: Coordinate
-  ) {}
+  ) {
+    logMessage(`Player "${name}" created`, LogLevel.INFO);
+
+    this._playerPiece = {
+      color: playerPieceColors[color],
+      shape: "heart", // TODO: Allow for custom shapes
+    };
+  }
 
   get treasuresFound(): number {
     return this._treasuresFound;
@@ -33,6 +45,10 @@ export class Player {
     return this._position;
   }
 
+  get piece(): PlayerPiece {
+    return this._playerPiece;
+  }
+
   /**
    * Used to draw the player's path on the board
    */
@@ -41,11 +57,23 @@ export class Player {
   }
 
   move(row: number, column: number): void {
+    logMessage(
+      `Player "${this.name}" moved from ${JSON.stringify(
+        this._position
+      )} to ${JSON.stringify({ row, column })}`,
+      LogLevel.INFO
+    );
+
     this._previousPosition = this._position;
     this._position = { row, column };
   }
 
   findTreasure(nextTreasure?: Treasure): void {
+    logMessage(
+      `Player "${this.name}" found a treasure: ${nextTreasure?.id}`,
+      LogLevel.INFO
+    );
+
     this._treasuresFound++;
     this._previousTreasures.push(this._currentTreasure!);
     this._currentTreasure = nextTreasure || null;
@@ -71,8 +99,12 @@ export class PlayerMap {
   }
 
   addPlayer(player: Player): void {
+    logMessage(`Adding player "${player.name}" to the game`, LogLevel.INFO);
+
     this.players.set(player.name, player);
     this.updateCoordinateMap();
+
+    logMessage(`Players in the game: ${this.inspect()}`, LogLevel.DEBUG);
   }
 
   updatePlayer(player: Player): void {
@@ -81,6 +113,7 @@ export class PlayerMap {
   }
 
   removePlayer(player: Player): void {
+    logMessage(`Removing player "${player.name}" from the game`, LogLevel.INFO);
     this.players.delete(player.name);
     this.updateCoordinateMap();
   }
@@ -94,27 +127,47 @@ export class PlayerMap {
   }
 
   getPlayersAtPosition(coordinate: Coordinate): Player[] {
-    return this.coordinateToPlayerMap[this.coordinateToKey(coordinate)] || [];
+    const players =
+      this.coordinateToPlayerMap[this.coordinateToKey(coordinate)];
+
+    if (players) {
+      logMessage(
+        `Players at ${JSON.stringify(coordinate)}: ${players
+          .map((player) => `"[${player.color}]${player.name}"`)
+          .join(", ")}`,
+        LogLevel.DEBUG
+      );
+    }
+
+    return players || [];
   }
 
   movePlayer(player: Player, row: number, column: number): void {
+    logMessage(
+      `Moving player "${player.name}" to ${JSON.stringify({ row, column })}`,
+      LogLevel.INFO
+    );
     player.move(row, column);
     this.updateCoordinateMap();
   }
 
   updateCoordinateMap(): void {
-    this.coordinateToPlayerMap = Object.values(this.players).reduce(
+    this.coordinateToPlayerMap = Array.from(this.players.values()).reduce(
       (map, player) => {
         const coordinate = player.position;
         const key = this.coordinateToKey(coordinate);
-        if (map[key]) {
-          map[key].push(player);
-        } else {
-          map[key] = [player];
-        }
+        const players = map[key] || [];
+        players.push(player);
+        map[key] = players;
         return map;
       },
       {} as { [coordinate: string]: Player[] }
     );
+  }
+
+  inspect(): string {
+    return Array.from(this.players.values())
+      .map((player) => player.name)
+      .join(", ");
   }
 }
