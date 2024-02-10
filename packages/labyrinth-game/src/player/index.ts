@@ -36,7 +36,7 @@ export class Player {
   /**
    * Used to draw the player's path on the board
    */
-  get previousPosition(): Coordinate {
+  get previousPosition(): Coordinate | null {
     return this._previousPosition;
   }
 
