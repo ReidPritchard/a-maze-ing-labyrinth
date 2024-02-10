@@ -2,31 +2,31 @@
  * Enum for log levels
  */
 export enum LogLevel {
-  DEBUG = 1,
-  INFO,
-  WARN,
-  ERROR,
+	DEBUG = 1,
+	INFO,
+	WARN,
+	ERROR,
 }
 
 /**
  * Mapping of log levels to console methods
  */
 const LogMethod = {
-  [LogLevel.DEBUG]: console.debug,
-  [LogLevel.INFO]: console.info,
-  [LogLevel.WARN]: console.warn,
-  [LogLevel.ERROR]: console.error,
+	[LogLevel.DEBUG]: console.debug,
+	[LogLevel.INFO]: console.info,
+	[LogLevel.WARN]: console.warn,
+	[LogLevel.ERROR]: console.error,
 };
 
 /**
  * Log Level CLI Colors
  */
 const LogLevelColors = {
-  [LogLevel.DEBUG]: "\x1b[34m",
-  [LogLevel.INFO]: "\x1b[32m",
-  [LogLevel.WARN]: "\x1b[33m",
-  [LogLevel.ERROR]: "\x1b[31m",
-  reset: "\x1b[0m",
+	[LogLevel.DEBUG]: '\x1b[34m',
+	[LogLevel.INFO]: '\x1b[32m',
+	[LogLevel.WARN]: '\x1b[33m',
+	[LogLevel.ERROR]: '\x1b[31m',
+	reset: '\x1b[0m',
 };
 
 /**
@@ -34,40 +34,40 @@ const LogLevelColors = {
  * @class
  */
 export class Logger {
-  /**
-   * @param {boolean} enabled - Whether logging is enabled
-   * @param {LogLevel} level - The maximum log level to display
-   */
-  constructor(private enabled: boolean, private level: LogLevel) {}
+	/**
+	 * @param {boolean} enabled - Whether logging is enabled
+	 * @param {LogLevel} level - The maximum log level to display
+	 */
+	constructor(private enabled: boolean, private level: LogLevel) {}
 
-  /**
-   * Format a message based on its log level
-   * @param {string} message - The message to format
-   * @param {LogLevel} level - The level of the message
-   * @returns {string} - The formatted message
-   */
-  private formatMessage(message: string, level: LogLevel): string {
-    const timestamp = new Date().toISOString();
-    const color = LogLevelColors[level];
-    const reset = LogLevelColors.reset;
-    return `[${timestamp}] ${color}${LogLevel[level]}${reset}: ${message}`;
-  }
+	/**
+	 * Format a message based on its log level
+	 * @param {string} message - The message to format
+	 * @param {LogLevel} level - The level of the message
+	 * @returns {string} - The formatted message
+	 */
+	private formatMessage(message: string, level: LogLevel): string {
+		const timestamp = new Date().toISOString();
+		const color = LogLevelColors[level];
+		const reset = LogLevelColors.reset;
+		return `[${timestamp}] ${color}${LogLevel[level]}${reset}: ${message}`;
+	}
 
-  /**
-   * Log a message
-   * @param {string} message - The message to log
-   * @param {LogLevel} level - The level of the message
-   * @returns {void}
-   */
-  log(message: string, level: LogLevel): void {
-    if (this.enabled && level >= this.level) {
-      if (level in LogMethod) {
-        LogMethod[level](this.formatMessage(message, level));
-      } else {
-        throw new Error(`Invalid log level: ${level}`);
-      }
-    }
-  }
+	/**
+	 * Log a message
+	 * @param {string} message - The message to log
+	 * @param {LogLevel} level - The level of the message
+	 * @returns {void}
+	 */
+	log(message: string, level: LogLevel): void {
+		if (this.enabled && level >= this.level) {
+			if (level in LogMethod) {
+				LogMethod[level](this.formatMessage(message, level));
+			} else {
+				throw new Error(`Invalid log level: ${level}`);
+			}
+		}
+	}
 }
 
 /**
@@ -78,10 +78,10 @@ export class Logger {
  * @throws {Error} If the provided log level is not within the range 1-4
  */
 export function createLogger(enabled: boolean, level: LogLevel): Logger {
-  if (!(level in LogLevel)) {
-    throw new Error(`Invalid log level: ${level}`);
-  }
-  return new Logger(enabled, level);
+	if (!(level in LogLevel)) {
+		throw new Error(`Invalid log level: ${level}`);
+	}
+	return new Logger(enabled, level);
 }
 
 /**

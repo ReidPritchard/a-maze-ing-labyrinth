@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["labyrinth-game"],
+	transpilePackages: ['labyrinth-game'],
 };
 
 module.exports = nextConfig;

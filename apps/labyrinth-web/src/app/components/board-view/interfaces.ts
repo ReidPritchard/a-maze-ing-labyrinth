@@ -1,6 +1,6 @@
-import { GameBoard } from "labyrinth-game";
+import { GameBoard } from 'labyrinth-game';
 
 export type BoardViewProps = {
-  board: GameBoard;
-  onCellClick?: (rowIndex: number, colIndex: number) => void;
+	board: GameBoard;
+	onCellClick?: (rowIndex: number, colIndex: number) => void;
 };

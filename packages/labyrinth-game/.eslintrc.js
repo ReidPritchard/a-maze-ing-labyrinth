@@ -1,5 +1,5 @@
 /* eslint-env node */
 module.exports = {
-  root: true,
-  extends: ["@shared/eslint-config/index.js"],
+	root: true,
+	extends: ['@shared/eslint-config/index.js'],
 };

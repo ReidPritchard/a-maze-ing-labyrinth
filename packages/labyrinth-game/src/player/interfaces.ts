@@ -1,5 +1,5 @@
-import { Coordinate } from "../board/interfaces";
-import { Treasure } from "../treasure";
+import { Coordinate } from '../board/interfaces';
+import { Treasure } from '../treasure';
 
 /**
  * Interface for a single player
@@ -16,36 +16,36 @@ import { Treasure } from "../treasure";
  * user that owns the player.
  */
 export interface Player {
-  /**
-   * The player's username
-   */
-  username: string;
+	/**
+	 * The player's username
+	 */
+	username: string;
 
-  /**
-   * The player's current score
-   * The number of treasures they have collected
-   * NOTE: Currently only single games are supported
-   * but this could be expanded to support multiple
-   * games in a single session.
-   */
-  score: number;
+	/**
+	 * The player's current score
+	 * The number of treasures they have collected
+	 * NOTE: Currently only single games are supported
+	 * but this could be expanded to support multiple
+	 * games in a single session.
+	 */
+	score: number;
 
-  /**
-   * The player's current position on the board
-   */
-  position: Coordinate;
+	/**
+	 * The player's current position on the board
+	 */
+	position: Coordinate;
 
-  /**
-   * The piece that represents the player on the board
-   * This will include any identifying information in order
-   * to distinguish between players on the board
-   */
-  piece: PlayerPiece;
+	/**
+	 * The piece that represents the player on the board
+	 * This will include any identifying information in order
+	 * to distinguish between players on the board
+	 */
+	piece: PlayerPiece;
 
-  /**
-   * An array of the player's collected treasures
-   */
-  treasuresFound: Treasure[];
+	/**
+	 * An array of the player's collected treasures
+	 */
+	treasuresFound: Treasure[];
 }
 
 /**
@@ -57,14 +57,14 @@ export interface Player {
  * will limit the colors to 8
  */
 export const playerPieceColors = {
-  red: "red",
-  blue: "blue",
-  green: "green",
-  yellow: "yellow",
-  purple: "purple",
-  orange: "orange",
-  pink: "pink",
-  brown: "brown",
+	red: 'red',
+	blue: 'blue',
+	green: 'green',
+	yellow: 'yellow',
+	purple: 'purple',
+	orange: 'orange',
+	pink: 'pink',
+	brown: 'brown',
 } as const;
 
 /**
@@ -73,11 +73,11 @@ export const playerPieceColors = {
  * TODO: Similar to the colors, we can expand later
  */
 export const playerPieceShapes = {
-  heart: "heart",
-  star: "star",
-  circle: "circle",
-  square: "square",
-  triangle: "triangle",
+	heart: 'heart',
+	star: 'star',
+	circle: 'circle',
+	square: 'square',
+	triangle: 'triangle',
 } as const;
 
 /**
@@ -90,13 +90,13 @@ export const playerPieceShapes = {
  * about the player's piece
  */
 export interface PlayerPiece {
-  /**
-   * The color of the player's piece
-   */
-  color: keyof typeof playerPieceColors;
+	/**
+	 * The color of the player's piece
+	 */
+	color: keyof typeof playerPieceColors;
 
-  /**
-   * The shape of the player's piece
-   */
-  shape: keyof typeof playerPieceShapes;
+	/**
+	 * The shape of the player's piece
+	 */
+	shape: keyof typeof playerPieceShapes;
 }

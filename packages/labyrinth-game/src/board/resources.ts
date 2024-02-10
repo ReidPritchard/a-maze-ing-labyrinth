@@ -1,17 +1,17 @@
-import { GameBoard } from ".";
-import { GameTile, createTile } from "../tile";
-import { Treasure } from "../treasure";
+import { GameBoard } from '.';
+import { GameTile, createTile } from '../tile';
+import { Treasure } from '../treasure';
 
 /**
  * A simple type for deserializing the board from a string
  * Contains all the information needed to create a tile and track its properties
  */
 export type FixedBoardTile = {
-  type: string;
-  rotation: number;
-  treasure: boolean;
-  fixed: boolean;
-  startingPosition: boolean;
+	type: string;
+	rotation: number;
+	treasure: boolean;
+	fixed: boolean;
+	startingPosition: boolean;
 };
 
 /**
@@ -37,31 +37,28 @@ export type FixedBoardTile = {
  * This approach allows for a compact and efficient serialization of the game board, while still being easy to read and understand.
  */
 function serializeTile(tile: FixedBoardTile) {
-  return `${tile.type[0]}-r${tile.rotation}-t${tile.treasure ? 1 : 0}-f${
-    tile.fixed ? 1 : 0
-  }-s${tile.startingPosition ? 1 : 0}`;
+	return `${tile.type[0]}-r${tile.rotation}-t${tile.treasure ? 1 : 0}-f${tile.fixed ? 1 : 0}-s${tile.startingPosition ? 1 : 0}`;
 }
 
 /**
  * Deserializes a tile from a string. The string must be in the format described in the documentation for `serializeTile`.
  */
 function deserializeTile(serializedTile: string): FixedBoardTile {
-  const [type, rotation, treasure, fixed, startingPosition] =
-    serializedTile.split("-");
+	const [type, rotation, treasure, fixed, startingPosition] = serializedTile.split('-');
 
-  const tileTypes = {
-    c: "corner",
-    l: "line",
-    t: "t",
-  };
+	const tileTypes = {
+		c: 'corner',
+		l: 'line',
+		t: 't',
+	};
 
-  return {
-    type: tileTypes[type as keyof typeof tileTypes],
-    rotation: parseInt(rotation.slice(1)),
-    treasure: treasure.slice(1) === "1",
-    fixed: fixed.slice(1) === "1",
-    startingPosition: startingPosition.slice(1) === "1",
-  };
+	return {
+		type: tileTypes[type as keyof typeof tileTypes],
+		rotation: parseInt(rotation.slice(1)),
+		treasure: treasure.slice(1) === '1',
+		fixed: fixed.slice(1) === '1',
+		startingPosition: startingPosition.slice(1) === '1',
+	};
 }
 
 /**
@@ -69,56 +66,47 @@ function deserializeTile(serializedTile: string): FixedBoardTile {
  * The board is parsed from a list of strings containing the tile types
  */
 class FixedBoard extends GameBoard {
-  constructor(boardString: string[]) {
-    const rows = boardString.length;
-    const columns = boardString[0].split(" ").length;
+	constructor(boardString: string[]) {
+		const rows = boardString.length;
+		const columns = boardString[0].split(' ').length;
 
-    const treasureCount = boardString.reduce(
-      (count, row) =>
-        count +
-        row.split(" ").reduce((rowCount, tile) => {
-          const { treasure } = deserializeTile(tile);
-          return rowCount + (treasure ? 1 : 0);
-        }, 0),
-      0
-    );
-    const playerCount = 4;
+		const treasureCount = boardString.reduce(
+			(count, row) =>
+				count +
+				row.split(' ').reduce((rowCount, tile) => {
+					const { treasure } = deserializeTile(tile);
+					return rowCount + (treasure ? 1 : 0);
+				}, 0),
+			0,
+		);
+		const playerCount = 4;
 
-    super(rows, columns, treasureCount, playerCount);
-  }
+		super(rows, columns, treasureCount, playerCount);
+	}
 
-  /**
-   * Deserializes a board from a list of strings containing the tile types.
-   * The strings must be in the format described in the documentation for `serializeTile`.
-   */
-  deserializeBoard(boardString: string[]): void {
-    boardString.forEach((row, rowIndex) => {
-      row.split(" ").forEach((tile, columnIndex) => {
-        const { type, rotation, treasure, fixed, startingPosition } =
-          deserializeTile(tile);
+	/**
+	 * Deserializes a board from a list of strings containing the tile types.
+	 * The strings must be in the format described in the documentation for `serializeTile`.
+	 */
+	deserializeBoard(boardString: string[]): void {
+		boardString.forEach((row, rowIndex) => {
+			row.split(' ').forEach((tile, columnIndex) => {
+				const { type, rotation, treasure, fixed, startingPosition } = deserializeTile(tile);
 
-        if (treasure) {
-          this.addTreasureToMap(
-            rowIndex,
-            columnIndex,
-            new Treasure("Treasure", false)
-          );
-        }
+				if (treasure) {
+					this.addTreasureToMap(rowIndex, columnIndex, new Treasure('Treasure', false));
+				}
 
-        if (startingPosition) {
-          // TODO: Add a method to add starting positions to the player map
-          // for now it will default to the 4 corners
-        }
+				if (startingPosition) {
+					// TODO: Add a method to add starting positions to the player map
+					// for now it will default to the 4 corners
+				}
 
-        const newTile = createTile(
-          type as "corner" | "line" | "t",
-          fixed,
-          rotation
-        );
-        this.setTile(rowIndex, columnIndex, newTile);
-      });
-    });
-  }
+				const newTile = createTile(type as 'corner' | 'line' | 't', fixed, rotation);
+				this.setTile(rowIndex, columnIndex, newTile);
+			});
+		});
+	}
 }
 /**
  * In the original game, the board always has the same number of rows and columns
