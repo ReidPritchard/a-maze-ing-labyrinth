@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import styles from './page.module.css';
-import { createBoard } from 'labyrinth-game';
+import { createBoard, createGameConductor } from 'labyrinth-game';
 import BoardView from './components/board-view/board-view';
 import { GameTile, createRandomTile } from 'labyrinth-game';
 import BoardExtraTile from './components/board-extra-tile/board-extra-tile';
 import { AStarPathFinding } from 'labyrinth-ai';
+import { GameManagement } from './components/game-management/game-management';
 
 export default function Home() {
 	const [board, setBoard] = useState(createBoard(9));
@@ -40,6 +41,9 @@ export default function Home() {
 			</div>
 			<div className={styles.description}>
 				<button onClick={onSearchClick}>Search</button>
+			</div>
+			<div className={styles.description}>
+				<GameManagement gameConductor={} />
 			</div>
 		</main>
 	);

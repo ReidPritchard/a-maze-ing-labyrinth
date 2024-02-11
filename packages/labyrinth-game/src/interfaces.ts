@@ -14,3 +14,5 @@ export interface GameState {
 	gameStatus: GameStatus;
 	extraTileState: GameTile;
 }
+
+export type Direction = 'up' | 'down' | 'left' | 'right';
