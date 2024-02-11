@@ -52,6 +52,15 @@ export class Player {
 		return this._previousPosition;
 	}
 
+	/**
+	 * Set the treasure the player is currently looking for
+	 * @param treasure The treasure the player is looking for
+	 * @returns void
+	 */
+	set currentTreasure(treasure: Treasure | null) {
+		this._currentTreasure = treasure;
+	}
+
 	move(row: number, column: number): void {
 		logMessage(`Player "${this.name}" moved from ${JSON.stringify(this._position)} to ${JSON.stringify({ row, column })}`, LogLevel.INFO);
 

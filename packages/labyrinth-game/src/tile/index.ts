@@ -48,6 +48,23 @@ export class GameTile implements Tile {
 		}
 	}
 
+	/**
+	 * A Method to determine if the path of this tile is connected to the path of another tile.
+	 * @param tile The tile to check if it is connected to.
+	 * @param direction The direction of the passed tile in relation to this tile.
+	 * @returns True if the paths are connected, false otherwise.
+	 */
+	isConnectedTo(tile: GameTile, direction: 'up' | 'down' | 'left' | 'right'): boolean {
+		const oppositeDirection: { [K in 'up' | 'down' | 'left' | 'right']: 'up' | 'down' | 'left' | 'right' } = {
+			up: 'down',
+			down: 'up',
+			left: 'right',
+			right: 'left',
+		};
+
+		return this[direction] && tile[oppositeDirection[direction]];
+	}
+
 	generateStringRepresentation(): string {
 		const tile = Array.from({ length: 3 }, () => Array.from({ length: 3 }, () => ' '));
 
