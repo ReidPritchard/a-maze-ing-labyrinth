@@ -1,4 +1,5 @@
 import { Player, PlayerMap } from '../player';
+import { playerPieceColors } from '../player/interfaces';
 import { GameTile, createRandomTile } from '../tile';
 import { Treasure, TreasureMap } from '../treasure';
 import { Board, Coordinate } from './interfaces';
@@ -62,10 +63,14 @@ export class GameBoard implements Board {
 	}
 
 	private fillPlayerMap(): void {
+		const playerPieceColors: string[] = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown'];
+
 		for (let i = 0; i < this.playerCount; i++) {
 			const position = this.startingPositions[i];
 			if (position) {
-				const newPlayer = new Player(`Player ${i}`, 'blue', position);
+				const randomColorIndex = Math.floor(Math.random() * playerPieceColors.length);
+				const randomColor = playerPieceColors[randomColorIndex];
+				const newPlayer = new Player(`Player ${i}`, randomColor as any, position);
 				this.playerMap.addPlayer(newPlayer);
 			}
 		}
